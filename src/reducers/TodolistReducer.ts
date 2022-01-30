@@ -1,7 +1,17 @@
 import {filterType, TodolistType} from "../App";
 import {v1} from "uuid";
 
-export const TodolistReducer = (state: Array<TodolistType>, action: mainType): Array<TodolistType> => {
+let todolistsId1 = v1();
+let todolistsId2 = v1();
+let todolistsId3 = v1();
+
+export let initialState: Array<TodolistType> = [
+    {id: todolistsId1, title: 'What to learn today', filter: 'all'},
+    {id: todolistsId2, title: 'What to learn later', filter: 'all'},
+    {id: todolistsId3, title: 'What to drink now', filter: 'all'}
+]
+
+export const TodolistReducer = (state: Array<TodolistType> = initialState, action: mainType): Array<TodolistType> => {
     switch (action.type) {
         case 'REMOVE-TODOLIST': {
             let newState = [...state]
@@ -28,8 +38,7 @@ export const TodolistReducer = (state: Array<TodolistType>, action: mainType): A
             } : tl)
             //map сам сделал массив и копию ... делать не надо
         }
-        default:
-            throw new Error("I don't understand this action type")
+        default: return state
     }
 }
 

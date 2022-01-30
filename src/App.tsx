@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {PropsTask, Todolist} from "./Todolist";
 import {v1} from "uuid";
@@ -9,9 +9,10 @@ import {
     addTodolistAC,
     changeFilterAC,
     removeTodolistAC,
-    TodolistReducer,
     updTodolistTitleAC
 } from "./reducers/TodolistReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {rootReducersType} from "./store/store";
 
 
 export type filterType = 'all' | 'active' | 'completed' //создаем 3 названия фильтров которые могут быть
@@ -27,15 +28,15 @@ export type TaskTypes = {
 }
 
 function App() {
+
+    let dispatch = useDispatch();
+    let todolists = useSelector<rootReducersType, TodolistType[]>(state => state.todolists)
+
+    //КАК СОЕДЕНИТЬ ЭТИ АЙДИ С РЕДЬЮСЕРОМ????
+
     let todolistsId1 = v1();
     let todolistsId2 = v1();
     let todolistsId3 = v1();
-
-    let [todolists, todolistDispatcher] = useReducer(TodolistReducer,[
-        {id: todolistsId1, title: 'What to learn today', filter: 'all'},
-        {id: todolistsId2, title: 'What to learn later', filter: 'all'},
-        {id: todolistsId3, title: 'What to drink now', filter: 'all'}
-    ])
 
     let [tasks, setTasks] = useState<TaskTypes>({
             [todolistsId1]: [
@@ -62,19 +63,19 @@ function App() {
     // -----TODOLIST-----
 
     const removeTodolist = (todoListID: string) => {
-        todolistDispatcher(removeTodolistAC(todoListID))
+        dispatch(removeTodolistAC(todoListID))
     }
 
     function updTitle(title: string, todolistId: string) {
-        todolistDispatcher(updTodolistTitleAC(title, todolistId))
+        dispatch(updTodolistTitleAC(title, todolistId))
     }
 
     function addNewTodoList(title: string) {
-        todolistDispatcher(addTodolistAC(title))
+        dispatch(addTodolistAC(title))
     }
 
     function changeFilter(filter: filterType, todoID: string) {
-        todolistDispatcher(changeFilterAC(filter, todoID))
+        dispatch(changeFilterAC(filter, todoID))
     }
 
 
@@ -110,8 +111,7 @@ function App() {
         // setTasks([...tasks]) //отрисовка через деструктуризация - отрисуй которые поменялись
     }
 
-
-
+    debugger;
     return (
         <div>
             <AppBar position="static" color={'secondary'}>
@@ -133,42 +133,42 @@ function App() {
                 <Grid container style={{padding: "20px"}}>
                     <AddItemForm callback={addNewTodoList}/>
                 </Grid>
-            <Grid container spacing={3}>
-            {
-                todolists.map((tl) => {
+                <Grid container spacing={3}>
+                    {
+                        todolists.map((tl) => {
 
-                    let FilteredTasksForToDo = tasks[tl.id]; // переменная с тасками для последющей фильтрации тасок
+                            let FilteredTasksForToDo = tasks[tl.id]; // переменная с тасками для последющей фильтрации тасок
 
-                    if (tl.filter === 'active') {
-                        FilteredTasksForToDo = tasks[tl.id].filter(t => !t.isDone) //условие  для показа тасок у которых исдон не равыно тру
+                            if (tl.filter === 'active') {
+                                FilteredTasksForToDo = tasks[tl.id].filter(t => !t.isDone) //условие  для показа тасок у которых исдон не равыно тру
+                            }
+                            if (tl.filter === 'completed') {
+                                FilteredTasksForToDo = tasks[tl.id].filter(t => t.isDone) //условие для показа тасок у которых исдон равно тру
+                            }
+                            return (
+                                <Grid item>
+                                    <Paper>
+                                        <Todolist
+                                            key={tl.id}
+                                            todolistsID={tl.id}
+                                            removeTodolist={removeTodolist}
+                                            title={tl.title}
+                                            tasks={FilteredTasksForToDo} //передаем таски после фильтрации
+                                            deleteTask={deleteTask}
+                                            addTask={addTask}
+                                            changeFilter={changeFilter}
+                                            changeChecked={changeChecked}
+                                            filter={tl.filter}
+                                            updTask={updTask}
+                                            updTitle={updTitle}
+                                        />
+                                    </Paper>
+                                </Grid>
+                            )
+                        })
                     }
-                    if (tl.filter === 'completed') {
-                        FilteredTasksForToDo = tasks[tl.id].filter(t => t.isDone) //условие для показа тасок у которых исдон равно тру
-                    }
-                    return (
-                        <Grid item>
-                            <Paper>
-                                <Todolist
-                                    key={tl.id}
-                                    todolistsID={tl.id}
-                                    removeTodolist={removeTodolist}
-                                    title={tl.title}
-                                    tasks={FilteredTasksForToDo} //передаем таски после фильтрации
-                                    deleteTask={deleteTask}
-                                    addTask={addTask}
-                                    changeFilter={changeFilter}
-                                    changeChecked={changeChecked}
-                                    filter={tl.filter}
-                                    updTask={updTask}
-                                    updTitle={updTitle}
-                                />
-                            </Paper>
-                        </Grid>
-                    )
-                })
-            }
-            </Grid>
-        </Container>
+                </Grid>
+            </Container>
         </div>
     );
 }
