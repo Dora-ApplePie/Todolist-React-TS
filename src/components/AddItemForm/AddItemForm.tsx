@@ -2,6 +2,8 @@ import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {errorType} from "../../Todolist";
 import styles from './AddItemForm.module.css'
 import {ButtonClick} from "../ButtonClick/ButtonClick";
+import {IconButton, TextField} from "@material-ui/core";
+import {AddBox} from "@material-ui/icons";
 
 
 type propsType = {
@@ -41,14 +43,20 @@ export const AddItemForm = (props: propsType) => {
     //--------------------------- зе енд обработчики TL ----------------
     return (
         <div>
-            <input
+            <TextField
                 value={newInputValue}
+                error={!!error}
+                helperText={error}
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressHandler}
-                className={error ? styles.Error : ''}
+                label="Something new..."
+                variant="outlined"
+                size="small"
+                // className={error ? styles.Error : ''}
             />
-            {error && <div className={styles.ErrorMsg}>{error}</div>}
-            <ButtonClick name={'+'} callback={addTaskHandler}/>
+            <IconButton onClick={addTaskHandler} color="secondary">
+                <AddBox/>
+            </IconButton>
         </div>
     )
 }
