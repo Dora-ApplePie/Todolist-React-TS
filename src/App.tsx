@@ -141,7 +141,7 @@ function App() {
                     }
                     return (
                         <Grid item>
-                            <Paper style={{padding: "10px"}}>
+                            <Paper>
                                 <Todolist
                                     key={tl.id}
                                     todolistsID={tl.id}

@@ -1,11 +1,11 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent} from "react";
 import './App.css';
 import {filterType} from "./App";
-import {ButtonClick} from "./components/ButtonClick/ButtonClick";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan/EditableSpan";
 import {Delete} from "@material-ui/icons";
 import {Checkbox, IconButton} from "@material-ui/core";
+import {Button} from "@material-ui/core";
 
 
 export type PropsTasks = {
@@ -60,7 +60,7 @@ export const Todolist: React.FC<PropsTasks> = React.memo((props) => {
                 <div className={'both'}>
                     <AddItemForm callback={(title) => props.addTask(title, props.todolistsID)}/>
                 </div>
-                <ul>
+
                     {props.tasks.map((t) => {
                         const removeHandler = () => {
                             props.deleteTask(t.id, props.todolistsID)
@@ -84,12 +84,12 @@ export const Todolist: React.FC<PropsTasks> = React.memo((props) => {
                         </div>;
                     })
                     }
-                </ul>
+
                 <div>
-                    <ButtonClick name={'all'} filter={props.filter} callback={() => tsarFooFunc('all')}/>
+                    <Button variant={props.filter === 'all' ? "contained" : "outlined"} color="secondary" onClick={() => tsarFooFunc('all')}>All</Button>
                     {/*царь принимает разные значения, если мы снизу передаем что-то то надо прописать анонимную функцию ()=> для 2х вызовов*/}
-                    <ButtonClick name={'active'} filter={props.filter} callback={() => tsarFooFunc('active')}/>
-                    <ButtonClick name={'completed'} filter={props.filter} callback={() => tsarFooFunc('completed')}/>
+                    <Button variant={props.filter === 'active' ? "contained" : "outlined"} color="secondary" onClick={() => tsarFooFunc('active')}>Active</Button>
+                    <Button variant={props.filter === 'completed' ? "contained" : "outlined"} color="secondary" onClick={() => tsarFooFunc('completed')}>Completed</Button>
                 </div>
             </div>
         </div>
