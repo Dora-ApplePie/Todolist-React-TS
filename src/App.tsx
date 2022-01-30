@@ -58,19 +58,23 @@ function App() {
         // setTasks([NewTask, ...tasks]) // отрисовка новая таска плюс все таски из массива с помощью рест ...
     }
 
-    function updTask(title: string, todolistId: string, taskId: string){
-        setTasks({...tasks, [todolistId]: tasks[todolistId].map(todo => todo.id === taskId ? {...todo, title: title} : todo)})
+    function updTask(title: string, todolistId: string, taskId: string) {
+        setTasks({
+            ...tasks,
+            [todolistId]: tasks[todolistId].map(todo => todo.id === taskId ? {...todo, title: title} : todo)
+        })
     }
 
-    function updTitle(title: string, todolistId: string){
+    function updTitle(title: string, todolistId: string) {
         setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, title: title} : tl))
     }
+
     //мап уже возращает массив
 
-    function addNewTodoList(title: string){
+    function addNewTodoList(title: string) {
         let newID = v1()
-        setTodolists([{id: newID, title: title, filter: 'all'},...todolists])
-        setTasks({...tasks, [newID]:[]})
+        setTodolists([{id: newID, title: title, filter: 'all'}, ...todolists])
+        setTasks({...tasks, [newID]: []})
     }
 
     function changeFilter(filter: filterType, todoID: string) {
@@ -110,18 +114,20 @@ function App() {
                         edge="start"
                         color="inherit"
                         aria-label="menu">
-                        <Menu />
+                        <Menu/>
                     </IconButton>
-                    <Typography variant="h6" component="div" >
+                    <Typography variant="h6" component="div">
                         TRELLO DESK
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
-            <div>
-                <h4>Add new:</h4>
-                <AddItemForm callback={addNewTodoList}/>
-            </div>
+
+            <Container fixed>
+                <Grid container style={{padding: "20px"}}>
+                    <AddItemForm callback={addNewTodoList}/>
+                </Grid>
+            <Grid container spacing={3}>
             {
                 todolists.map((tl) => {
 
@@ -133,23 +139,30 @@ function App() {
                     if (tl.filter === 'completed') {
                         FilteredTasksForToDo = tasks[tl.id].filter(t => t.isDone) //условие для показа тасок у которых исдон равно тру
                     }
-                    return <Todolist
-                        key={tl.id}
-                        todolistsID={tl.id}
-                        removeTodolist={removeTodolist}
-                        title={tl.title}
-                        tasks={FilteredTasksForToDo} //передаем таски после фильтрации
-                        deleteTask={deleteTask}
-                        addTask={addTask}
-                        changeFilter={changeFilter}
-                        changeChecked={changeChecked}
-                        filter={tl.filter}
-                        updTask={updTask}
-                        updTitle={updTitle}
-                    />
+                    return (
+                        <Grid item>
+                            <Paper style={{padding: "10px"}}>
+                                <Todolist
+                                    key={tl.id}
+                                    todolistsID={tl.id}
+                                    removeTodolist={removeTodolist}
+                                    title={tl.title}
+                                    tasks={FilteredTasksForToDo} //передаем таски после фильтрации
+                                    deleteTask={deleteTask}
+                                    addTask={addTask}
+                                    changeFilter={changeFilter}
+                                    changeChecked={changeChecked}
+                                    filter={tl.filter}
+                                    updTask={updTask}
+                                    updTitle={updTitle}
+                                />
+                            </Paper>
+                        </Grid>
+                    )
                 })
             }
-
+            </Grid>
+        </Container>
         </div>
     );
 }
