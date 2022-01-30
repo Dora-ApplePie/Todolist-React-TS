@@ -3,6 +3,8 @@ import './App.css';
 import {PropsTask, Todolist} from "./Todolist";
 import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
+import {AppBar, Toolbar, IconButton, Typography, Button, Container, Grid, Paper} from "@material-ui/core";
+import {Menu} from "@material-ui/icons";
 
 
 export type filterType = 'all' | 'active' | 'completed' //создаем 3 названия фильтров которые могут быть
@@ -101,7 +103,21 @@ function App() {
     }
 
     return (
-        <div className={'App'}>
+        <div>
+            <AppBar position="static" color={'secondary'}>
+                <Toolbar style={{justifyContent: 'space-between'}}>
+                    <IconButton
+                        edge="start"
+                        color="inherit"
+                        aria-label="menu">
+                        <Menu />
+                    </IconButton>
+                    <Typography variant="h6" component="div" >
+                        TRELLO DESK
+                    </Typography>
+                    <Button color="inherit">Login</Button>
+                </Toolbar>
+            </AppBar>
             <div>
                 <h4>Add new:</h4>
                 <AddItemForm callback={addNewTodoList}/>
