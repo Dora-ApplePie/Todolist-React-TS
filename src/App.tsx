@@ -1,10 +1,17 @@
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import './App.css';
 import {PropsTask, Todolist} from "./Todolist";
 import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {AppBar, Toolbar, IconButton, Typography, Button, Container, Grid, Paper} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
+import {
+    addTodolistAC,
+    changeFilterAC,
+    removeTodolistAC,
+    TodolistReducer,
+    updTodolistTitleAC
+} from "./reducers/TodolistReducer";
 
 
 export type filterType = 'all' | 'active' | 'completed' //создаем 3 названия фильтров которые могут быть
@@ -24,7 +31,7 @@ function App() {
     let todolistsId2 = v1();
     let todolistsId3 = v1();
 
-    let [todolists, setTodolists] = useState<Array<TodolistType>>([
+    let [todolists, todolistDispatcher] = useReducer(TodolistReducer,[
         {id: todolistsId1, title: 'What to learn today', filter: 'all'},
         {id: todolistsId2, title: 'What to learn later', filter: 'all'},
         {id: todolistsId3, title: 'What to drink now', filter: 'all'}
@@ -50,7 +57,28 @@ function App() {
                 {id: v1(), title: 'Vodaaa', isDone: false}
             ]
         }
-    ) //создаем стейт и помещаем в хук для присвоейния к переменной tasks и ее отрисовки
+    )
+
+    // -----TODOLIST-----
+
+    const removeTodolist = (todoListID: string) => {
+        todolistDispatcher(removeTodolistAC(todoListID))
+    }
+
+    function updTitle(title: string, todolistId: string) {
+        todolistDispatcher(updTodolistTitleAC(title, todolistId))
+    }
+
+    function addNewTodoList(title: string) {
+        todolistDispatcher(addTodolistAC(title))
+    }
+
+    function changeFilter(filter: filterType, todoID: string) {
+        todolistDispatcher(changeFilterAC(filter, todoID))
+    }
+
+
+    // -----TASKS-----
 
     function addTask(title: string, todoID: string) {
         setTasks({...tasks, [todoID]: [{id: v1(), title: title.trim(), isDone: false}, ...tasks[todoID]]})
@@ -82,31 +110,7 @@ function App() {
         // setTasks([...tasks]) //отрисовка через деструктуризация - отрисуй которые поменялись
     }
 
-    // -----TODOLIST-----
 
-    const removeTodolist = (todoListID: string) => {
-        setTodolists(todolists.filter(tl => todoListID !== tl.id)) // удаление целого тудулиста
-        // фильтрация - верни нам те туду листи, у которых  айди которое пришло не равно айди которое в стейте
-    }
-
-    function updTitle(title: string, todolistId: string) {
-        setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, title: title} : tl))
-    }
-
-    //мап уже возращает массив
-
-    function addNewTodoList(title: string) {
-        let newID = v1()
-        setTodolists([{id: newID, title: title, filter: 'all'}, ...todolists])
-        setTasks({...tasks, [newID]: []})
-    }
-
-    function changeFilter(filter: filterType, todoID: string) {
-        setTodolists(todolists.map(tl => tl.id === todoID ? {...tl, filter: filter} : tl)) //map сам сделал массив и копию ... делать не надо
-    }
-
-    //функция для отрисовки текущего фильтра (сначала это 'all'), затем в зависимости от того какая будет нажата кнопка в тудулисте
-    //данная функция подписчик обработчика события онклик вернет новый статус и в зависимости от условий прописаных ниже отфильтруются и отрисуются таски
 
     return (
         <div>

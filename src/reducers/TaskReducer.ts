@@ -16,7 +16,7 @@ export const TaskReducer = (state: TaskTypes, action: tsarType) => {
             return state
         }
         default:
-            return state
+            throw new Error("I don't understand this action type")
     }
 }
 
