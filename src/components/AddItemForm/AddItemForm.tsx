@@ -1,7 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {errorType} from "../../Todolist";
-import styles from './AddItemForm.module.css'
-import {ButtonClick} from "../ButtonClick/ButtonClick";
 import {IconButton, TextField} from "@material-ui/core";
 import {AddBox} from "@material-ui/icons";
 
@@ -20,7 +18,7 @@ export const AddItemForm = (props: propsType) => {
             props.callback(newInputValue)
             setNewInputValue('') //очистка поля инпута
         } else {
-            setError('This title is required!')
+            setError('Title is required!')
         }
     }
     //------------------функции обработчики для TL--------------
@@ -37,7 +35,7 @@ export const AddItemForm = (props: propsType) => {
             setNewInputValue('')
         }
         if (e.key === 'Enter' && newInputValue.trim() === '') {
-            setError('This title is required!')
+            setError('Title is required!')
         }
     }
     //--------------------------- зе енд обработчики TL ----------------
@@ -52,7 +50,6 @@ export const AddItemForm = (props: propsType) => {
                 label="Something new..."
                 variant="outlined"
                 size="small"
-                // className={error ? styles.Error : ''}
             />
             <IconButton onClick={addTaskHandler} color="secondary">
                 <AddBox/>

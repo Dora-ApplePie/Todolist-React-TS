@@ -4,9 +4,8 @@ import {filterType} from "./App";
 import {ButtonClick} from "./components/ButtonClick/ButtonClick";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan/EditableSpan";
-
-
-
+import {Delete} from "@material-ui/icons";
+import {Checkbox, IconButton} from "@material-ui/core";
 
 
 export type PropsTasks = {
@@ -53,7 +52,10 @@ export const Todolist: React.FC<PropsTasks> = React.memo((props) => {
                      const callbackUPDATE = (title: string) => {
                             props.updTitle(title, props.todolistsID)
                         }*/}
-                    <ButtonClick name={'X'} callback={removeTodo}/>
+                    <IconButton onClick={removeTodo} aria-label="delete" size="small">
+                        <Delete/>
+                    </IconButton>
+                    {/*<ButtonClick name={'X'} callback={removeTodo}/>*/}
                 </h3>
                 <div className={'both'}>
                     <AddItemForm callback={(title) => props.addTask(title, props.todolistsID)}/>
@@ -66,16 +68,20 @@ export const Todolist: React.FC<PropsTasks> = React.memo((props) => {
                         const checkedTaskHandler = (e: ChangeEvent<HTMLInputElement>) => {
                             props.changeChecked(t.id, e.currentTarget.checked, props.todolistsID)
                         }
-                        return <li className={t.isDone ? 'is-done' : ''}
+                        return <div className={t.isDone ? 'is-done' : ''}
                                    key={t.id}> {/*используем ключ, реакту важно знать что мы мапим/удаляем, надо связать объект с jsx*/}
-                            <input type="checkbox"
-                                   onChange={checkedTaskHandler}
-                                   checked={t.isDone}/>
+                            <Checkbox onChange={checkedTaskHandler} checked={t.isDone}/>
+                            {/*<input type="checkbox"*/}
+                            {/*       onChange={checkedTaskHandler}*/}
+                            {/*       checked={t.isDone}/>*/}
                             <EditableSpan title={t.title}
                                           callback={(title) => props.updTask(title, props.todolistsID, t.id)}/>
-                            <ButtonClick name={'x'} callback={removeHandler}/>
+                            <IconButton onClick={removeHandler} aria-label="delete" size="small">
+                                <Delete/>
+                            </IconButton>
+                            {/*<ButtonClick name={'x'} callback={removeHandler}/>*/}
                             {/*2-й способ "мостик", ремув хэндлер*/}
-                        </li>
+                        </div>;
                     })
                     }
                 </ul>
