@@ -58,11 +58,35 @@ function App() {
         // setTasks([NewTask, ...tasks]) // отрисовка новая таска плюс все таски из массива с помощью рест ...
     }
 
+    function deleteTask(idTask: string, todoID: string) {
+
+        setTasks({...tasks, [todoID]: tasks[todoID].filter(t => t.id !== idTask)})
+    }
+
+    //функция  удаления тасок, т.е. фильтр сравнения айди таски из наших тасок в стейте и айди на которой был нажат крестик
+    //если значение фолс то произойдет перерисовка тасок
+
     function updTask(title: string, todolistId: string, taskId: string) {
         setTasks({
             ...tasks,
             [todolistId]: tasks[todolistId].map(todo => todo.id === taskId ? {...todo, title: title} : todo)
         })
+    }
+
+    function changeChecked(idTask: string, isDone: boolean, todoID: string) {
+        setTasks({...tasks, [todoID]: tasks[todoID].map(t => t.id === idTask ? {...t, isDone: isDone} : t)})
+        // let task = tasks.find(t => t.id === idTask)
+        // if (task) { //тайпскрипт говорит а вдруг вы передадите айдишку которую хрен найдешь поэтому мы должны проверить существует ли она(псевдо истина псевдо ложь)
+        //     task.isDone = isDone //меняем у таски исдон на который передаем в ончендж
+        // }
+        // setTasks([...tasks]) //отрисовка через деструктуризация - отрисуй которые поменялись
+    }
+
+    // -----TODOLIST-----
+
+    const removeTodolist = (todoListID: string) => {
+        setTodolists(todolists.filter(tl => todoListID !== tl.id)) // удаление целого тудулиста
+        // фильтрация - верни нам те туду листи, у которых  айди которое пришло не равно айди которое в стейте
     }
 
     function updTitle(title: string, todolistId: string) {
@@ -84,28 +108,6 @@ function App() {
     //функция для отрисовки текущего фильтра (сначала это 'all'), затем в зависимости от того какая будет нажата кнопка в тудулисте
     //данная функция подписчик обработчика события онклик вернет новый статус и в зависимости от условий прописаных ниже отфильтруются и отрисуются таски
 
-
-    function deleteTask(idTask: string, todoID: string) {
-        setTasks({...tasks, [todoID]: tasks[todoID].filter(t => t.id !== idTask)})
-    }
-
-    //функция  удаления тасок, т.е. фильтр сравнения айди таски из наших тасок в стейте и айди на которой был нажат крестик
-    //если значение фолс то произойдет перерисовка тасок
-
-    const removeTodolist = (todoListID: string) => {
-        setTodolists(todolists.filter(tl => todoListID !== tl.id)) // удаление целого тудулиста
-        // фильтрация - верни нам те туду листи, у которых  айди которое пришло не равно айди которое в стейте
-    }
-
-    function changeChecked(idTask: string, isDone: boolean, todoID: string) {
-        setTasks({...tasks, [todoID]: tasks[todoID].map(t => t.id === idTask ? {...t, isDone: isDone} : t)})
-        // let task = tasks.find(t => t.id === idTask)
-        // if (task) { //тайпскрипт говорит а вдруг вы передадите айдишку которую хрен найдешь поэтому мы должны проверить существует ли она(псевдо истина псевдо ложь)
-        //     task.isDone = isDone //меняем у таски исдон на который передаем в ончендж
-        // }
-        // setTasks([...tasks]) //отрисовка через деструктуризация - отрисуй которые поменялись
-    }
-
     return (
         <div>
             <AppBar position="static" color={'secondary'}>
@@ -117,7 +119,7 @@ function App() {
                         <Menu/>
                     </IconButton>
                     <Typography variant="h6" component="div">
-                        TRELLO DESK
+                        TODOLIST APP
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
