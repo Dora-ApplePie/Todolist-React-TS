@@ -1,0 +1,17 @@
+.App {
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.App > div {
+  margin-right: 50px;
+}
+
+.both {
+  display: flex;
+}
+
+.is-done {
+  opacity: 0.5;
+}
