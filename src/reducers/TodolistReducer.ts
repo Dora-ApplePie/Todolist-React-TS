@@ -25,10 +25,7 @@ export const TodolistReducer = (state: Array<TodolistType> = initialState, actio
             //мап уже возращает массив
         }
         case 'ADD-TODOLIST' : {
-            return [...state, {id: v1(), title: action.payload.title, filter: 'all' as filterType}]
-            // let newID = v1()
-            // setTodolists([{id: newID, title: title, filter: 'all'},...todolists])
-            // setTasks({...tasks, [newID]:[]})
+            return [...state, {id: action.payload.todolistId, title: action.payload.title, filter: 'all' as filterType}]
         }
         case "CHANGE-TODOLIST-FILTER": {
             let newState = [...state]
@@ -38,15 +35,16 @@ export const TodolistReducer = (state: Array<TodolistType> = initialState, actio
             } : tl)
             //map сам сделал массив и копию ... делать не надо
         }
-        default: return state
+        default:
+            return state
     }
 }
 
-type mainType = removeTodolistACType | changeTodolistTitleACType | addTodolistACType | changeFilterACType
-type removeTodolistACType = ReturnType<typeof removeTodolistAC>
-type changeTodolistTitleACType = ReturnType<typeof updTodolistTitleAC>
-type addTodolistACType = ReturnType<typeof addTodolistAC>
-type changeFilterACType = ReturnType<typeof changeFilterAC>
+export type mainType = removeTodolistACType | changeTodolistTitleACType | addTodolistACType | changeFilterACType
+export type removeTodolistACType = ReturnType<typeof removeTodolistAC>
+export type changeTodolistTitleACType = ReturnType<typeof updTodolistTitleAC>
+export type addTodolistACType = ReturnType<typeof addTodolistAC>
+export type changeFilterACType = ReturnType<typeof changeFilterAC>
 
 export const removeTodolistAC = (id: string) => {
     return {
@@ -70,7 +68,10 @@ export const updTodolistTitleAC = (title: string, id: string) => {
 export const addTodolistAC = (title: string) => {
     return {
         type: 'ADD-TODOLIST',
-        payload: {title}
+        payload: {
+            title: title,
+            todolistId: v1()
+        }
     } as const
 }
 
