@@ -1,14 +1,11 @@
 import {filterType, TodolistType} from "../App";
 import {v1} from "uuid";
 
-let todolistsId1 = v1();
-let todolistsId2 = v1();
-let todolistsId3 = v1();
 
 export let initialState: Array<TodolistType> = [
-    {id: todolistsId1, title: 'What to learn today', filter: 'all'},
-    {id: todolistsId2, title: 'What to learn later', filter: 'all'},
-    {id: todolistsId3, title: 'What to drink now', filter: 'all'}
+    {id: "todolistsId1", title: 'What to learn today', filter: 'all'},
+    {id: "todolistsId2", title: 'What to learn later', filter: 'all'},
+    {id: "todolistsId3", title: 'What to drink now', filter: 'all'}
 ]
 
 export const TodolistReducer = (state: Array<TodolistType> = initialState, action: mainType): Array<TodolistType> => {

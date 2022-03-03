@@ -3,24 +3,20 @@ import {v1} from "uuid";
 import {addTodolistACType, removeTodolistACType} from "./TodolistReducer";
 
 
-let todolistsId1 = v1();
-let todolistsId2 = v1();
-let todolistsId3 = v1();
-
 export let initialState: TaskTypes = {
-    [todolistsId1]: [
+    ["todolistsId1"]: [
         {id: v1(), title: 'HTML 5', isDone: true}, //0 объект
         {id: v1(), title: 'CSS 3', isDone: true}, //1 объект
         {id: v1(), title: 'TypeScript', isDone: true}, //2 объект
         {id: v1(), title: 'React', isDone: true}
     ],
-    [todolistsId2]: [
+    ["todolistsId2"]: [
         {id: v1(), title: 'Node.js', isDone: false},
         {id: v1(), title: 'Vue.js', isDone: false},
         {id: v1(), title: 'Redux', isDone: true},
         {id: v1(), title: 'Angular', isDone: false}
     ],
-    [todolistsId3]: [
+    ["todolistsId3"]: [
         {id: v1(), title: 'Vodka', isDone: true},
         {id: v1(), title: 'Whiskey', isDone: true},
         {id: v1(), title: 'Liquid', isDone: true},

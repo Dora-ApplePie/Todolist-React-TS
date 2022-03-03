@@ -29,7 +29,7 @@ export type PropsTask = {
 }
 export type errorType = string | null
 
-export const Todolist: React.FC<PropsTasks> = React.memo((props) => {
+export const Todolist = (props: PropsTasks) => {
 
     const removeTodo = () => {
         props.removeTodolist(props.todolistsID)
@@ -60,8 +60,7 @@ export const Todolist: React.FC<PropsTasks> = React.memo((props) => {
                 <div className={'both'}>
                     <AddItemForm callback={(title) => props.addTask(title, props.todolistsID)}/>
                 </div>
-
-                    {props.tasks.map((t, index) => {
+                    {props.tasks.map((t) => {
                         const removeHandler = () => {
                             props.deleteTask(t.id, props.todolistsID)
                         }
@@ -94,5 +93,5 @@ export const Todolist: React.FC<PropsTasks> = React.memo((props) => {
             </div>
         </div>
     )
-})
+}
 

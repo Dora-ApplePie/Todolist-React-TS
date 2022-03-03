@@ -36,8 +36,8 @@ export type TaskTypes = {
 function App() {
 
     let dispatch = useDispatch();
-    let todolists = useSelector<rootReducersType, TodolistType[]>(state => state.todolists);
-    let tasks = useSelector<rootReducersType, TaskTypes>(tasks => tasks.tasks);
+    const todolists = useSelector<rootReducersType, TodolistType[]>(state => state.todolists);
+    const tasks = useSelector<rootReducersType, TaskTypes>(tasks => tasks.tasks);
 
     // -----TODOLIST-----
 
