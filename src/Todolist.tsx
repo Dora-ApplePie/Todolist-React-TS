@@ -61,7 +61,7 @@ export const Todolist: React.FC<PropsTasks> = React.memo((props) => {
                     <AddItemForm callback={(title) => props.addTask(title, props.todolistsID)}/>
                 </div>
 
-                    {props.tasks.map((t) => {
+                    {props.tasks.map((t, index) => {
                         const removeHandler = () => {
                             props.deleteTask(t.id, props.todolistsID)
                         }

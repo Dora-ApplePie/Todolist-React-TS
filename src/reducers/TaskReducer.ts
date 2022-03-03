@@ -70,6 +70,8 @@ export const TaskReducer = (state= initialState, action: tsarType) => {
             const {[action.payload.id]: [], ...rest} = {...state}//деструктурируем объект стейт на свойства а в другой объект отдаем оставшиеся св-ва
             return rest
         }
+        default:
+            return state
 
     }
 }

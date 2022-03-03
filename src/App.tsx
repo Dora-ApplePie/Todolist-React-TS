@@ -36,8 +36,8 @@ export type TaskTypes = {
 function App() {
 
     let dispatch = useDispatch();
-    let todolists = useSelector<rootReducersType, TodolistType[]>(state => state.todolists)
-    let tasks = useSelector<rootReducersType, TaskTypes>(tasks => tasks.tasks)
+    let todolists = useSelector<rootReducersType, TodolistType[]>(state => state.todolists);
+    let tasks = useSelector<rootReducersType, TaskTypes>(tasks => tasks.tasks);
 
     // -----TODOLIST-----
 
@@ -115,7 +115,7 @@ function App() {
                 </Grid>
                 <Grid container spacing={3}>
                     {
-                        todolists.map((tl) => {
+                        todolists.map((tl, index) => {
 
                             let FilteredTasksForToDo = tasks[tl.id]; // переменная с тасками для последющей фильтрации тасок
 
